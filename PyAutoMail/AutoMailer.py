@@ -79,11 +79,13 @@ def send_email_attach(MailDetails):
     EmailAdd = UserDetails["Email"] #senders Gmail id over here
     Pass = UserDetails["Password"] #senders Gmail's Password over here 
 
-    msg = MIMEMultipart("alternative")
+    msg = MIMEMultipart()
     msg['From'] = EmailAdd
     msg['Subject'] = MailDetails['Subject'] # Subject of Email
     msg['To'] =  ', '.join(MailDetails['To'])
-    
+    """
+    message["Bcc"] = receiver_email  # Recommended for mass emails
+    """
     # Reciver of the Mail
     # Turn these into plain/html MIMEText objects
     TemplateNameTXT = "Plain_Mail.txt"
@@ -97,6 +99,26 @@ def send_email_attach(MailDetails):
     msg.attach(part2)
     
     
+    filename = MailDetails['AttachmentPath']  # In same directory as script
+
+    # Open PDF file in binary mode
+    with open(filename, "rb") as attachment:
+        # Add file as application/octet-stream
+        # Email client can usually download this automatically as attachment
+        part = MIMEBase("application", "octet-stream")
+        part.set_payload(attachment.read())
+
+    # Encode file in ASCII characters to send by email    
+    encoders.encode_base64(part)
+
+    # Add header as key/value pair to attachment part
+    part.add_header(
+        "Content-Disposition",
+        f"attachment; filename= {filename}",
+    )
+
+    # Add attachment to message and convert message to string
+    msg.attach(part)
     # msg.attach(MIMEText(MailDetails['Body'],"html")) # Email body or Content
     
     # Create secure connection with server and send email
@@ -175,7 +197,7 @@ if __name__ == "__main__":
     Fancy Email
     """
     
-    
+    """
     TemplateName = "MLXTREME_Template_Stripo.html"
     TemplateFolder = "Templates"
     UserDetails = read_user_details()
@@ -187,3 +209,22 @@ if __name__ == "__main__":
                     "Body" :   read_file(TemplatePath)
                     }
     send_email_fancy(MailDetails)
+    """
+    
+    """
+    Attached Fancy Email
+    """
+    
+    
+    TemplateName = "MLXTREME_Template_Stripo.html"
+    TemplateFolder = "Templates"
+    UserDetails = read_user_details()
+
+    TemplatePath = os.path.join(ROOT_DIR,TemplateFolder, TemplateName)
+    MailDetails = {
+                    "Subject": "Wow! I can text using Python.",
+                    "To":      ['damikdhar@gmail.com','njrfarhandasilva10@gmail.com','nirmalya14misra@gmail.com','swaymsdennings@gmail.com'],
+                    "Body" :   read_file(TemplatePath),
+                    "AttachmentPath" : "PyAutoMail/Sample_PDF.pdf"
+                    }
+    send_email_attach(MailDetails)
