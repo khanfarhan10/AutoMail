@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Passwords
+password_main.json
+Save_Password_Main.py
+
 # Distribution / packaging
 .Python
 build/
