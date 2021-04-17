@@ -22,7 +22,7 @@ addtoPath(ROOT_DIR)
 from Passwords.Save_Password import read_user_details
 
 
-def read_txt(TemplatePath):
+def read_file(TemplatePath):
     with open(TemplatePath) as f:
         message = f.read()
     return message
@@ -58,7 +58,7 @@ def send_email_fancy(MailDetails):
     TemplateFolderTXT = "Templates"
     TemplatePathTXT = os.path.join(ROOT_DIR,TemplateFolderTXT, TemplateNameTXT)
     
-    part1 = MIMEText(read_txt(TemplatePathTXT), "plain")
+    part1 = MIMEText(read_file(TemplatePathTXT), "plain")
     part2 = MIMEText(MailDetails['Body'],"html")
     
     msg.attach(part1)
@@ -125,10 +125,15 @@ if __name__ == "__main__":
     MailDetails = {
                     "Subject": "Wow! I can text using Python.",
                     "To":      ['damikdhar@gmail.com','njrfarhandasilva10@gmail.com'],
-                    "Body" :   read_txt(TemplatePath)
+                    "Body" :   read_file(TemplatePath)
                     }
     send_email(MailDetails)
     """
+    """
+    Fancy Email
+    """
+    
+    
     TemplateName = "MLXTREME_Template_Stripo.html"
     TemplateFolder = "Templates"
     UserDetails = read_user_details()
@@ -137,6 +142,6 @@ if __name__ == "__main__":
     MailDetails = {
                     "Subject": "Wow! I can text using Python.",
                     "To":      ['damikdhar@gmail.com','njrfarhandasilva10@gmail.com','nirmalya14misra@gmail.com'],
-                    "Body" :   read_txt(TemplatePath)
+                    "Body" :   read_file(TemplatePath)
                     }
     send_email_fancy(MailDetails)
