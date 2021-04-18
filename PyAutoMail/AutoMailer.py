@@ -95,7 +95,7 @@ def send_email_attach(MailDetails):
     part1 = MIMEText(read_file(TemplatePathTXT), "plain")
     part2 = MIMEText(MailDetails['Body'],"html")
     
-    msg.attach(part1)
+    # msg.attach(part1)
     msg.attach(part2)
     
     
@@ -110,11 +110,11 @@ def send_email_attach(MailDetails):
 
     # Encode file in ASCII characters to send by email    
     encoders.encode_base64(part)
-
+    FileBaseName = os.path.basename(filename)
     # Add header as key/value pair to attachment part
     part.add_header(
         "Content-Disposition",
-        f"attachment; filename= {filename}",
+        f"attachment; filename= {FileBaseName}",
     )
 
     # Add attachment to message and convert message to string
@@ -187,14 +187,13 @@ if __name__ == "__main__":
     Attached Fancy Email - Python File Attached
     """
     
-    
     TemplateName = "MLXTREME_Template_Stripo.html"
     TemplateFolder = "Templates"
     UserDetails = read_user_details()
 
     TemplatePath = os.path.join(ROOT_DIR,TemplateFolder, TemplateName)
     MailDetails = {
-                    "Subject": "Sent using Python",
+                    "Subject": "New Mail Sent using Python",
                     "To":      ['damikdhar@gmail.com','njrfarhandasilva10@gmail.com','nirmalya14misra@gmail.com','swaymsdennings@gmail.com'],
                     "Body" :   read_file(TemplatePath),
                     "AttachmentPath" : "PyAutoMail/AutoMailer.py"
