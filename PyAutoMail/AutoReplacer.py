@@ -5,7 +5,7 @@ python PyAutoMail/AutoReplacer.py
 from AutoMailer import *
 import os,shutil
 import re
-
+UserDetails = read_user_details()
 
 def readHTML(FilePath):
     with open(FilePath, "r") as f:
@@ -79,14 +79,29 @@ if __name__ == "__main__":
     TemplatePath = os.path.join(ROOT_DIR,TemplateFolder, TemplateName)
     TempPath = os.path.join(ROOT_DIR,TemplateFolder, "temp.html")
     shutil.copy(TemplatePath,TempPath)
-    string_res = """Covid Test Predictions :<br>Test Results : Negative<br>Desription : XYZ<br>Comments : ABC<br><br></p></td>"""
+    # string_res = """Covid Test Predictions :<br>Test Results : Negative<br>Desription : XYZ<br>Comments : ABC<br><br></p></td>"""
     TestDetails = {
                     "Title" : "Covid Test Predictions",
                     "Test Results" : "Positive",
-                    "Desription" : "Level 1 - Advised Usage of Medical Treatment with Proper Consultation with a Doctor",
+                    "Description" : "Level 1 - Advised Usage of Medical Treatment with Proper Consultation with a Doctor",
                     "Comments" : "Immediate Vaccination May Help in Recovery."
+                    }
+    TestDetails = {
+                    "Title" : "Swayam Test Predictions",
+                    "Test Results" : "Positive",
+                    "Description" : "This is some Financial Stuff",
+                    "Comments" : "I'm great in Commerce"
                     }
     rewriteHTMLTemplate(TestDetails,fpath=TempPath)
     # os.remove(TempPath)
+    
+
+    MailDetails = {
+                    "Subject": "Template HTML Mail Sent using Python",
+                    "To":      ['njrfarhandasilva10@gmail.com','swaymsdennings@gmail.com'],
+                    "Body" :   read_file(TempPath),
+                    "AttachmentPath" : "PyAutoMail/AutoReplacer.py"
+                    }
+    send_email_attach(MailDetails)
     
     

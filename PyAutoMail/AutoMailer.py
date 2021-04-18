@@ -127,7 +127,7 @@ def send_email_attach(MailDetails):
         server.login(EmailAdd,Pass)
         server.sendmail(EmailAdd, MailDetails["To"], msg.as_string()) 
 
-
+UserDetails = read_user_details()
 
 if __name__ == "__main__":
     """
@@ -199,5 +199,6 @@ if __name__ == "__main__":
                     "AttachmentPath" : "PyAutoMail/AutoMailer.py"
                     }
     send_email_attach(MailDetails)
+    print("Mail Sent!")
     
     
