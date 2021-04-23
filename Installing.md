@@ -1,3 +1,4 @@
+pip install virtualenv
 virtualenv CEnv
 CEnv\Scripts\activate
 pip install -r requirements.txt
